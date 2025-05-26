@@ -1,9 +1,10 @@
 package go_ompay
 
 // ----------pre order-------------------------
+//没有psp三方的订单号
 
 type OMPayDepositReq struct {
-	SerialNo          string `json:"serialNo" mapstructure:"serialNo"`                   //商户的单号  //1
+	SerialNo          string `json:"serialNo" mapstructure:"serialNo"`                   //商户的唯一单号
 	Currency          string `json:"currency" mapstructure:"currency"`                   //1
 	Amount            string `json:"amount" mapstructure:"amount"`                       //Return URL after the payment is done.
 	ClientAccountName string `json:"ClientAccountName" mapstructure:"ClientAccountName"` //Client's Registered Full name in account (KYC)
@@ -21,7 +22,7 @@ type OMPayDepositReq struct {
 type OmPayDepositCallbackReq struct {
 	Info         string  `json:"Info" mapstructure:"Info"` // Payment information. (E.g. Approved, Rejected)
 	MerchantCode string  `json:"MerchantCode" mapstructure:"MerchantCode"`
-	SerialNo     string  `json:"SerialNo" mapstructure:"SerialNo"`
+	SerialNo     string  `json:"SerialNo" mapstructure:"SerialNo"` //商户的唯一单号
 	CurrencyCode string  `json:"CurrencyCode" mapstructure:"CurrencyCode"`
 	Amount       float64 `json:"Amount" mapstructure:"Amount"`
 	Status       int     `json:"Status" mapstructure:"Status"` //0 = Waiting for payment,1 = Payment Approved ,2 = Rejected
@@ -31,8 +32,8 @@ type OmPayDepositCallbackReq struct {
 //=============================提现====================================
 
 type OMPayWithdrawalReq struct {
-	UserRef           string  `json:"UserRef" mapstructure:"UserRef"`                                         //Your reference Id for this request
-	TransactionId     string  `json:"TransactionId" mapstructure:"TransactionId"`                             //唯一id
+	UserRef           string  `json:"UserRef" mapstructure:"UserRef"`                                         //感觉是唯一,可以是随机生成. Your reference Id for this request
+	TransactionId     string  `json:"TransactionId" mapstructure:"TransactionId"`                             //商户的订单唯一id
 	FullName          string  `json:"FullName,omitempty" mapstructure:"FullName,omitempty"`                   //Full name of the user of the bank. (Required except USDT)
 	AccountNo         string  `json:"AccountNo" mapstructure:"AccountNo"`                                     //Bank Account Number / USDT Address
 	BankCode          string  `json:"BankCode" mapstructure:"BankCode"`                                       //Bank Name / USDT Types (TRX, ETH)
@@ -49,7 +50,7 @@ type OMPayWithdrawalReq struct {
 
 type OMPayWithdrawalResp struct {
 	Success      bool   `json:"success" mapstructure:"success"`
-	UserRef      string `json:"userRef" mapstructure:"userRef"`     //Your reference Id for this request.
+	UserRef      string `json:"userRef" mapstructure:"userRef"`     //唯一id, Your reference Id for this request.
 	ResultRef    int    `json:"resultRef" mapstructure:"resultRef"` //Our result reference id
 	ErrorCode    int    `json:"errorCode" mapstructure:"errorCode"` //0 是正确，非0是错误
 	ErrorMessage string `json:"errorMessage" mapstructure:"errorMessage"`
@@ -61,11 +62,11 @@ type OMPayWithdrawalResp struct {
 // psp是发了一个post请求过来, 如果处理好了就返回 success ,失败就返回fail
 // 发送的url样式： https://{your_callback_url}/?Token=***&TransactionId=ABC123456&StatusDesc=Complete
 type OmPayWithdrawalCallbackReq struct {
-	TransactionId string  `json:"TransactionId" mapstructure:"TransactionId"`
-	StatusId      int     `json:"StatusId" mapstructure:"StatusId"`     //2 = Completed, 3 = Rejected
-	StatusDesc    string  `json:"StatusDesc" mapstructure:"StatusDesc"` //提现状态: Completed, Rejected
-	FullName      string  `json:"FullName" mapstructure:"FullName"`     //Full name of the user of the bank
-	AccountNo     string  `json:"AccountNo" mapstructure:"AccountNo"`   //Bank Account Number
+	TransactionId string  `json:"TransactionId" mapstructure:"TransactionId"` //商户的唯一单号
+	StatusId      int     `json:"StatusId" mapstructure:"StatusId"`           //2 = Completed, 3 = Rejected
+	StatusDesc    string  `json:"StatusDesc" mapstructure:"StatusDesc"`       //提现状态: Completed, Rejected
+	FullName      string  `json:"FullName" mapstructure:"FullName"`           //Full name of the user of the bank
+	AccountNo     string  `json:"AccountNo" mapstructure:"AccountNo"`         //Bank Account Number
 	Amount        float64 `json:"Amount" mapstructure:"Amount"`
 	Token         string  `json:"Token" mapstructure:"Token"` // 签名 MD5(AgentCode.ToUpper() + TransactionId.ToUpper() + API_SECRET_KEY)
 }
