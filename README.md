@@ -1,20 +1,22 @@
-整体流程
+整体
 ==============
-1. server负责对请求参数做sign签名. 随后发请求给psp
-4. server收到回调
+https://api.doitwallet.asia/Documents/DepositAPI.pdf
 
+
+说明
+==============
+1. deposit发一个请求后，构造一个url, 随后前端打开这个url即可支付
 
 鉴权
 ==============
-1. body的md5签名
+1. query的md5签名
 
 
 回调地址
 ==============
-在psp端指定的callback地址, 所以无法在pre-order中动态指定
+在接口中可以动态定义
 
 
 Comment
 ===============
-1. both support deposit && withdrawl
-2. 支持multipart/form-data格式.
+只支持deposit

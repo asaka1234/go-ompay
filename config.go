@@ -1,17 +1,14 @@
-package go_buy365
+package go_ompay
 
 const (
-	MERCHANT_ID = "502326"                               //商户号
-	ACCESS_KEY  = "2299de9c55458f1d48611cdd9073aa7c"     //调用psp的签名key
-	BACK_KEY    = "5E1572C3-0274-A6C7-E797-6E3111CCDC71" //回调的签名key
+	MERCHANT_ID = "2021-CPTMARKETS" //商户id
+	API_KEY     = "496a6764-f46a-4ac8-81ca-cc8b72aa9fe0"
+	SECRET_KEY  = "496a6764-f46a-4ac8-81ca-cc8b72aa9fe0"
 
-	//deposit
-	DEPOSIT_URL = "https://swpapi.fastgo788.io/UtInRecordApi/orderGateWay"
+	//--------
 
-	//withdraw
-	WITHDRAW_URL         = "https://mmapi.qhcm12.com/AjaxOpen/saveOutOrder"
-	WITHDRAW_CONFIRM_URL = "https://mmapi.proxima131.com/AjaxOpen/appealOutOrder"
+	BASE_URL = "https://payment.pa-sys.com" //这个是ompay的域名
 
-	//orderlist
-	ORDERLIST_URL = "https://mmapi.proxima131.com/AjaxOpen/getOutOrderList"
+	DEPOSIT_CALLBACK_URL    = "http://127.0.0.1/order/post"
+	DEPOSIT_FE_CALLBACK_URL = "http://127.0.0.1/order/post"
 )

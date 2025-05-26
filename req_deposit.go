@@ -1,65 +1,43 @@
-package go_buy365
+package go_ompay
 
 import (
-	"crypto/tls"
-	"encoding/json"
-	"fmt"
-	"github.com/asaka1234/go-buy365/utils"
+	"github.com/asaka1234/go-ompay/utils"
 	"github.com/mitchellh/mapstructure"
-	"time"
+	"github.com/spf13/cast"
+	"net/url"
 )
 
-// pre-order
-func (cli *Client) Deposit(req Buy365DepositReq) (*Buy365DepositResponse, error) {
+// 构造一个支付地址, 随后让前端Get打开这个地址即可跳转到psp三方收银台
+func (cli *Client) Deposit(req OMPayDepositReq) string {
 
-	rawURL := cli.DepositURL
+	rawURL := cli.DepositUrl
 
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
-	params["sys_no"] = cli.MerchantID
-	params["order_time"] = time.Now().Format("2006-01-02 15:04:05")
+	params["merchantCode"] = cli.MerchantID //1
+	params["returnUrl"] = cli.DepositFeCallbackUrl
+	params["notifyUrl"] = cli.DepositCallbackUrl
 
 	//签名
-	signStr := utils.SignDeposit(params, cli.AccessKey)
-	params["sign"] = signStr
+	signStr := utils.SignWithAmount(req.SerialNo, req.Amount, cli.ApiKey, cli.ApiSecret)
+	params["token"] = signStr
 
-	//返回值会放到这里
-	var result Buy365DepositCommonResponse
+	//http://<domain>/Merchant/Pay?merchantCode={Merchant Id}&serialNo={Your
+	//Transaction id} &currency={Currency}&amount={Amount}&returnUrl={Return URL}
+	//&notifyUrl&={Callback URL} &token={MD5 token}
 
-	resp2, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
-		SetCloseConnection(true).
-		R().
-		SetHeaders(getHeaders()).
-		SetMultipartFormData(utils.ConvertToStringMap(params)).
-		SetResult(&result).
-		Post(rawURL)
-
+	//构造url
+	u, err := url.Parse(rawURL)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-
-	//------------------------------------------------------
-	if result.Code == 111 && result.Status == "success" {
-		//说明成功
-
-		//step-1
-		var data map[string]interface{}
-		if err := json.Unmarshal(resp2.Body(), &data); err != nil {
-			return nil, err
-		}
-
-		//step-2
-		var resp3 Buy365DepositResponse
-		if err := mapstructure.Decode(data, &resp3); err != nil {
-			return nil, err
-		}
-
-		return &resp3, nil
+	// 2. 设置查询参数
+	q := u.Query()
+	for key, value := range params {
+		q.Add(key, cast.ToString(value))
 	}
+	u.RawQuery = q.Encode()
 
-	return &Buy365DepositResponse{
-		Code:   result.Code,
-		Status: result.Status,
-		Msg:    result.Msg,
-	}, fmt.Errorf("result is failed")
+	return u.String()
+
 }
