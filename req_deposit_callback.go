@@ -13,7 +13,7 @@ func (cli *Client) DepositCallback(req OmPayDepositCallbackReq, processor func(O
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
 
-	verifyResult := utils.VerifySignWithoutAmount(req.SerialNo, cli.ApiKey, cli.ApiSecret, req.Token)
+	verifyResult := utils.VerifySignDepositWithoutAmount(req.SerialNo, cli.DepositApiKey, cli.DepositSecretKey, req.Token)
 	if !verifyResult {
 		//验签失败
 		return errors.New("verify sign error!")

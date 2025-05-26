@@ -6,23 +6,35 @@ import (
 )
 
 type Client struct {
-	MerchantID string
-	ApiKey     string
-	ApiSecret  string
+	MerchantID       string //貌似只是给deposit用的
+	DepositApiKey    string
+	DepositSecretKey string
+
+	WithdrawAgentCode string
+	WithdrawSecretKey string
 
 	DepositUrl           string
 	DepositCallbackUrl   string
 	DepositFeCallbackUrl string
 
+	WithdrawUrl         string
+	WithdrawCallbackUrl string
+
 	ryClient *resty.Client
 	logger   utils.Logger
 }
 
-func NewClient(logger utils.Logger, merchantId string, apiKey string, apiSecret string, depositUrl, depositCallbackUrl, depositFeCallbackUrl string) *Client {
+func NewClient(logger utils.Logger, merchantId string, depositApiKey string, depositSecretKey string, withdrawAgentCode, withdrawSecretKey, depositUrl, WithdrawUrl, depositCallbackUrl, WithdrawCallbackUrl, depositFeCallbackUrl string) *Client {
 	return &Client{
-		MerchantID: merchantId,
-		ApiKey:     apiKey,
-		ApiSecret:  apiSecret,
+		MerchantID:       merchantId,
+		DepositApiKey:    depositApiKey,
+		DepositSecretKey: depositSecretKey,
+
+		WithdrawAgentCode: withdrawAgentCode,
+		WithdrawSecretKey: withdrawSecretKey,
+
+		WithdrawUrl:         WithdrawUrl,
+		WithdrawCallbackUrl: WithdrawCallbackUrl,
 
 		DepositUrl:           depositUrl,
 		DepositCallbackUrl:   depositCallbackUrl,

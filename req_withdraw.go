@@ -7,20 +7,19 @@ import (
 	"net/url"
 )
 
-// 构造一个支付地址, 随后让前端Get打开这个地址即可跳转到psp三方收银台
-func (cli *Client) Deposit(req OMPayDepositReq) string {
+// https://api.doitwallet.asia/Documents/PayoutAPI.pdf
+func (cli *Client) Withdraw(req OMPayWithdrawalReq) string {
 
 	rawURL := cli.DepositUrl
 
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
-	params["merchantCode"] = cli.MerchantID //1
-	params["returnUrl"] = cli.DepositFeCallbackUrl
-	params["notifyUrl"] = cli.DepositCallbackUrl //回调地址
+	params["AgentCode"] = cli.WithdrawAgentCode     //系统分配
+	params["CallbackURL"] = cli.WithdrawCallbackUrl //回调地址
 
 	//签名
-	signStr := utils.SignDepositWithAmount(req.SerialNo, req.Amount, cli.DepositApiKey, cli.DepositSecretKey)
-	params["token"] = signStr
+	signStr := utils.SignWithdrawWithUserRef(req.UserRef, cli.WithdrawAgentCode, cli.WithdrawSecretKey)
+	params["Token"] = signStr
 
 	//http://<domain>/Merchant/Pay?merchantCode={Merchant Id}&serialNo={Your
 	//Transaction id} &currency={Currency}&amount={Amount}&returnUrl={Return URL}

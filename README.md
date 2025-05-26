@@ -1,6 +1,7 @@
 整体
 ==============
-https://api.doitwallet.asia/Documents/DepositAPI.pdf
+1. 充值: https://api.doitwallet.asia/Documents/DepositAPI.pdf
+2. 提现: https://api.doitwallet.asia/Documents/PayoutAPI.pdf
 
 
 说明
