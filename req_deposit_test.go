@@ -1,32 +1,37 @@
 package go_ompay
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestDeposit(t *testing.T) {
-	/*
-		//构造client
-		cli := NewClient(nil, MERCHANT_ID, ACCESS_KEY, BACK_KEY, DEPOSIT_URL, WITHDRAW_URL, WITHDRAW_CONFIRM_URL, ORDERLIST_URL)
+	//构造client
+	cli := NewClient(nil,
+		MERCHANT_ID,
+		API_KEY,
+		SECRET_KEY,
+		WITHDRAW_AGENT_CODE,
+		WITHDRAW_SECRET_KEY,
+		DEPOSIT_URL,
+		WITHDRAW_URL,
+		DEPOSIT_CALLBACK_URL,
+		WITHDRAW_CALLBACK_URL,
+		DEPOSIT_FE_CALLBACK_URL)
 
-		//发请求
-		resp, err := cli.Deposit(GenDepositRequestDemo())
-		if err != nil {
-			fmt.Printf("err:%s\n", err.Error())
-			return
-		}
-		fmt.Printf("resp:%+v\n", resp)
-	*/
+	//获取拼凑的跳转地址
+	urlString := cli.Deposit(GenDepositRequestDemo())
+
+	fmt.Printf("resp:%+v\n", urlString)
+
 }
 
 func GenDepositRequestDemo() OMPayDepositReq {
-	return OMPayDepositReq{}
-	/*
-			OrderId:     "3234", //商户uid
-			UserId:      "30779639363",
-			OrderIp:     "18.29.120.32",
-			OrderAmount: "60000.00",
-			PayUserName: "你好", //商户订单号
-		}
-	*/
+	return OMPayDepositReq{
+		SerialNo:          "11234",     //商户的单号  //1
+		Currency:          "VND",       //1
+		Amount:            "100000.00", //Return URL after the payment is done.
+		ClientAccountName: "你好",        //Client's Registered Full name in account (KYC)
+	}
+
 }

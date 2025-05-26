@@ -4,20 +4,18 @@
 2. 提现: https://api.doitwallet.asia/Documents/PayoutAPI.pdf
 
 
-说明
-==============
-1. deposit发一个请求后，构造一个url, 随后前端打开这个url即可支付
 
 鉴权
 ==============
 1. query的md5签名
 
 
-回调地址
+充值
 ==============
-在接口中可以动态定义
+1. 后端帮签名,生成一个收银台url.  随后fe打开这个url即可进行支付
 
 
-Comment
+提现
 ===============
-只支持deposit
+1. withdraw是一个post请求,application/x-www-form-urlencoded类型
+2. 可以接口中动态定义callback url

@@ -1,14 +1,14 @@
 package go_ompay
 
 import (
+	"crypto/tls"
+	"fmt"
 	"github.com/asaka1234/go-ompay/utils"
 	"github.com/mitchellh/mapstructure"
-	"github.com/spf13/cast"
-	"net/url"
 )
 
 // https://api.doitwallet.asia/Documents/PayoutAPI.pdf
-func (cli *Client) Withdraw(req OMPayWithdrawalReq) string {
+func (cli *Client) Withdraw(req OMPayWithdrawalReq) (*OMPayWithdrawalResp, error) {
 
 	rawURL := cli.DepositUrl
 
@@ -21,22 +21,30 @@ func (cli *Client) Withdraw(req OMPayWithdrawalReq) string {
 	signStr := utils.SignWithdrawWithUserRef(req.UserRef, cli.WithdrawAgentCode, cli.WithdrawSecretKey)
 	params["Token"] = signStr
 
-	//http://<domain>/Merchant/Pay?merchantCode={Merchant Id}&serialNo={Your
-	//Transaction id} &currency={Currency}&amount={Amount}&returnUrl={Return URL}
-	//&notifyUrl&={Callback URL} &token={MD5 token}
+	//----------------------
+	var result OMPayWithdrawalResp
 
-	//构造url
-	u, err := url.Parse(rawURL)
+	resp1, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
+		SetCloseConnection(true).
+		R().
+		SetFormData(utils.ConvertToStringMap(params)).
+		SetHeaders(getHeaders()).
+		SetResult(&result).
+		SetError(&result).
+		Post(rawURL)
+
+	fmt.Printf("result: %s\n", string(resp1.Body()))
+
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	// 2. 设置查询参数
-	q := u.Query()
-	for key, value := range params {
-		q.Add(key, cast.ToString(value))
-	}
-	u.RawQuery = q.Encode()
 
-	return u.String()
+	if result.HasError {
+		result.ErrorMessage = result.Info
+		result.ErrorCode = 108 //TODO 这里要做一下映射
+		result.Success = false
+	}
+
+	return &result, nil
 
 }

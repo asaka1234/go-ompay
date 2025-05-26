@@ -7,7 +7,7 @@ import (
 	"net/url"
 )
 
-// 构造一个支付地址, 随后让前端Get打开这个地址即可跳转到psp三方收银台
+// 构造一个支付地址, 随后让前端Get打开这个地址即可跳转到psp三方收银台(是一个qrcode扫描支付的页面)
 func (cli *Client) Deposit(req OMPayDepositReq) string {
 
 	rawURL := cli.DepositUrl

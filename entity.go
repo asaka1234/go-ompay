@@ -32,7 +32,7 @@ type OmPayDepositCallbackReq struct {
 
 type OMPayWithdrawalReq struct {
 	UserRef           string  `json:"UserRef" mapstructure:"UserRef"`                                         //Your reference Id for this request
-	TransactionId     string  `json:"TransactionId" mapstructure:"TransactionId"`                             //是psp的唯一id
+	TransactionId     string  `json:"TransactionId" mapstructure:"TransactionId"`                             //唯一id
 	FullName          string  `json:"FullName,omitempty" mapstructure:"FullName,omitempty"`                   //Full name of the user of the bank. (Required except USDT)
 	AccountNo         string  `json:"AccountNo" mapstructure:"AccountNo"`                                     //Bank Account Number / USDT Address
 	BankCode          string  `json:"BankCode" mapstructure:"BankCode"`                                       //Bank Name / USDT Types (TRX, ETH)
@@ -40,9 +40,7 @@ type OMPayWithdrawalReq struct {
 	BankRegisterState string  `json:"BankRegisterState,omitempty" mapstructure:"BankRegisterState,omitempty"` //Bank Branch State
 	BankRegisterCity  string  `json:"BankRegisterCity,omitempty" mapstructure:"BankRegisterCity,omitempty"`   //Bank Branch City
 	Amount            float64 `json:"Amount" mapstructure:"Amount"`
-	//Remark            string  `json:"Remark,omitempty" mapstructure:"Remark,omitempty"` //option
-	Currency string `json:"Currency" mapstructure:"Currency"` //币种
-	//Channel  int    `json:"Channel,omitempty" mapstructure:"Channel,omitempty"` //option 1 = Normal, 2 = Express
+	Currency          string  `json:"Currency" mapstructure:"Currency"` //币种
 	//让sdk设置
 	//AgentCode   string `json:"AgentCode" mapstructure:"AgentCode"`                         //给merchant分配的
 	//CallbackURL string `json:"CallbackURL,omitempty" mapstructure:"CallbackURL,omitempty"` //回调地址
@@ -55,6 +53,9 @@ type OMPayWithdrawalResp struct {
 	ResultRef    int    `json:"resultRef" mapstructure:"resultRef"` //Our result reference id
 	ErrorCode    int    `json:"errorCode" mapstructure:"errorCode"` //0 是正确，非0是错误
 	ErrorMessage string `json:"errorMessage" mapstructure:"errorMessage"`
+	//错误时的返回
+	HasError bool   `json:"HasError" mapstructure:"HasError"`
+	Info     string `json:"Info" mapstructure:"Info"`
 }
 
 // psp是发了一个post请求过来, 如果处理好了就返回 success ,失败就返回fail
