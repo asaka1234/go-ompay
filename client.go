@@ -44,3 +44,12 @@ func NewClient(logger utils.Logger, merchantId string, depositApiKey string, dep
 		logger:   logger,
 	}
 }
+
+// 方便依据currency来切换 (MYR, IDR/ / SGD/ THB/ VND)
+func (cli *Client) SetMerchantInfo(merchantId string, depositApiKey string, depositSecretKey string, withdrawAgentCode, withdrawSecretKey string) {
+	cli.MerchantID = merchantId
+	cli.DepositApiKey = depositApiKey
+	cli.DepositSecretKey = depositSecretKey
+	cli.WithdrawAgentCode = withdrawAgentCode
+	cli.WithdrawSecretKey = withdrawSecretKey
+}
