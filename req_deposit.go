@@ -10,16 +10,16 @@ import (
 // 构造一个支付地址, 随后让前端Get打开这个地址即可跳转到psp三方收银台(是一个qrcode扫描支付的页面)
 func (cli *Client) Deposit(req OMPayDepositReq) string {
 
-	rawURL := cli.DepositUrl
+	rawURL := cli.Params.DepositUrl
 
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
-	params["merchantCode"] = cli.MerchantID //1
-	params["returnUrl"] = cli.DepositFeCallbackUrl
-	params["notifyUrl"] = cli.DepositCallbackUrl //回调地址
+	params["merchantCode"] = cli.Params.MerchantId //1
+	params["returnUrl"] = cli.Params.DepositFeCallbackUrl
+	params["notifyUrl"] = cli.Params.DepositCallbackUrl //回调地址
 
 	//签名
-	signStr := utils.SignDepositWithAmount(req.SerialNo, req.Amount, cli.DepositApiKey, cli.DepositSecretKey)
+	signStr := utils.SignDepositWithAmount(req.SerialNo, req.Amount, cli.Params.DepositApiKey, cli.Params.DepositSecretKey)
 	params["token"] = signStr
 
 	//http://<domain>/Merchant/Pay?merchantCode={Merchant Id}&serialNo={Your

@@ -13,12 +13,12 @@ func (cli *Client) DepositCallback(req OmPayDepositCallbackReq, processor func(O
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
 
-	verifyResult := utils.VerifySignDepositWithoutAmount(req.SerialNo, cli.DepositApiKey, cli.DepositSecretKey, req.Token)
+	verifyResult := utils.VerifySignDepositWithoutAmount(req.SerialNo, cli.Params.DepositApiKey, cli.Params.DepositSecretKey, req.Token)
 	if !verifyResult {
 		//验签失败
 		return errors.New("verify sign error!")
 	}
-	if req.MerchantCode != cli.MerchantID {
+	if req.MerchantCode != cli.Params.MerchantId {
 		return errors.New("merchanID is wrong!")
 	}
 

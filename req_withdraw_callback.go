@@ -13,7 +13,7 @@ func (cli *Client) WithdrawCallback(req OmPayWithdrawalCallbackReq, processor fu
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
 
-	verifyResult := utils.VerifySignWithdrawWithTransId(req.TransactionId, cli.WithdrawAgentCode, cli.WithdrawSecretKey, req.Token)
+	verifyResult := utils.VerifySignWithdrawWithTransId(req.TransactionId, cli.Params.WithdrawAgentCode, cli.Params.WithdrawSecretKey, req.Token)
 	if !verifyResult {
 		//验签失败
 		return errors.New("verify sign error!")

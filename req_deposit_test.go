@@ -8,16 +8,16 @@ import (
 func TestDeposit(t *testing.T) {
 	//构造client
 	cli := NewClient(nil,
-		MERCHANT_ID,
-		API_KEY,
-		SECRET_KEY,
-		WITHDRAW_AGENT_CODE,
-		WITHDRAW_SECRET_KEY,
-		DEPOSIT_URL,
-		WITHDRAW_URL,
-		DEPOSIT_CALLBACK_URL,
-		WITHDRAW_CALLBACK_URL,
-		DEPOSIT_FE_CALLBACK_URL)
+		OMPayInitParams{MERCHANT_ID,
+			API_KEY,
+			SECRET_KEY,
+			WITHDRAW_AGENT_CODE,
+			WITHDRAW_SECRET_KEY,
+			DEPOSIT_URL,
+			DEPOSIT_CALLBACK_URL,
+			DEPOSIT_FE_CALLBACK_URL,
+			WITHDRAW_URL,
+			WITHDRAW_CALLBACK_URL})
 
 	//获取拼凑的跳转地址
 	urlString := cli.Deposit(GenDepositRequestDemo())

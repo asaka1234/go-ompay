@@ -10,15 +10,15 @@ import (
 // https://api.doitwallet.asia/Documents/PayoutAPI.pdf
 func (cli *Client) Withdraw(req OMPayWithdrawalReq) (*OMPayWithdrawalResp, error) {
 
-	rawURL := cli.DepositUrl
+	rawURL := cli.Params.DepositUrl
 
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
-	params["AgentCode"] = cli.WithdrawAgentCode     //系统分配
-	params["CallbackURL"] = cli.WithdrawCallbackUrl //回调地址
+	params["AgentCode"] = cli.Params.WithdrawAgentCode     //系统分配
+	params["CallbackURL"] = cli.Params.WithdrawCallbackUrl //回调地址
 
 	//签名
-	signStr := utils.SignWithdrawWithUserRef(req.UserRef, cli.WithdrawAgentCode, cli.WithdrawSecretKey)
+	signStr := utils.SignWithdrawWithUserRef(req.UserRef, cli.Params.WithdrawAgentCode, cli.Params.WithdrawSecretKey)
 	params["Token"] = signStr
 
 	//----------------------

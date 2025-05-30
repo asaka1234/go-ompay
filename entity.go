@@ -1,5 +1,21 @@
 package go_ompay
 
+type OMPayInitParams struct {
+	MerchantId       string `json:"merchantId" mapstructure:"merchantId" config:"merchantId"` //貌似只是给deposit用的
+	DepositApiKey    string `json:"depositApiKey" mapstructure:"depositApiKey" config:"depositApiKey"`
+	DepositSecretKey string `json:"depositSecretKey" mapstructure:"depositSecretKey" config:"depositSecretKey"`
+
+	WithdrawAgentCode string `json:"withdrawAgentCode" mapstructure:"withdrawAgentCode" config:"withdrawAgentCode"`
+	WithdrawSecretKey string `json:"withdrawSecretKey" mapstructure:"withdrawSecretKey" config:"withdrawSecretKey"`
+
+	DepositUrl           string `json:"depositUrl" mapstructure:"depositUrl" config:"depositUrl"`
+	DepositCallbackUrl   string `json:"depositCallbackUrl" mapstructure:"depositCallbackUrl" config:"depositCallbackUrl"`
+	DepositFeCallbackUrl string `json:"depositFeCallbackUrl" mapstructure:"depositFeCallbackUrl" config:"depositFeCallbackUrl"`
+
+	WithdrawUrl         string `json:"withdrawUrl" mapstructure:"withdrawUrl" config:"withdrawUrl"`
+	WithdrawCallbackUrl string `json:"withdrawCallbackUrl" mapstructure:"withdrawCallbackUrl" config:"withdrawCallbackUrl"`
+}
+
 // ----------pre order-------------------------
 //没有psp三方的订单号
 
