@@ -3,20 +3,20 @@ package go_ompay
 type OMPayInitParams struct {
 	MerchantInfo
 
-	DepositUrl           string `json:"depositUrl" mapstructure:"depositUrl" config:"depositUrl"`
-	DepositCallbackUrl   string `json:"depositCallbackUrl" mapstructure:"depositCallbackUrl" config:"depositCallbackUrl"`
-	DepositFeCallbackUrl string `json:"depositFeCallbackUrl" mapstructure:"depositFeCallbackUrl" config:"depositFeCallbackUrl"`
+	DepositUrl           string `json:"depositUrl" mapstructure:"depositUrl" config:"depositUrl"  yaml:"depositUrl"`
+	DepositCallbackUrl   string `json:"depositCallbackUrl" mapstructure:"depositCallbackUrl" config:"depositCallbackUrl"  yaml:"depositCallbackUrl"`
+	DepositFeCallbackUrl string `json:"depositFeCallbackUrl" mapstructure:"depositFeCallbackUrl" config:"depositFeCallbackUrl"  yaml:"depositFeCallbackUrl"`
 
-	WithdrawUrl         string `json:"withdrawUrl" mapstructure:"withdrawUrl" config:"withdrawUrl"`
-	WithdrawCallbackUrl string `json:"withdrawCallbackUrl" mapstructure:"withdrawCallbackUrl" config:"withdrawCallbackUrl"`
+	WithdrawUrl         string `json:"withdrawUrl" mapstructure:"withdrawUrl" config:"withdrawUrl"  yaml:"withdrawUrl"`
+	WithdrawCallbackUrl string `json:"withdrawCallbackUrl" mapstructure:"withdrawCallbackUrl" config:"withdrawCallbackUrl"  yaml:"withdrawCallbackUrl"`
 }
 
 type MerchantInfo struct {
-	MerchantId        string `json:"merchantId" mapstructure:"merchantId" config:"merchantId"` //貌似只是给deposit用的
-	DepositApiKey     string `json:"depositApiKey" mapstructure:"depositApiKey" config:"depositApiKey"`
-	DepositSecretKey  string `json:"depositSecretKey" mapstructure:"depositSecretKey" config:"depositSecretKey"`
-	WithdrawAgentCode string `json:"withdrawAgentCode" mapstructure:"withdrawAgentCode" config:"withdrawAgentCode"`
-	WithdrawSecretKey string `json:"withdrawSecretKey" mapstructure:"withdrawSecretKey" config:"withdrawSecretKey"`
+	MerchantId        string `json:"merchantId" mapstructure:"merchantId" config:"merchantId"  yaml:"merchantId"` //貌似只是给deposit用的
+	DepositApiKey     string `json:"depositApiKey" mapstructure:"depositApiKey" config:"depositApiKey"  yaml:"depositApiKey"`
+	DepositSecretKey  string `json:"depositSecretKey" mapstructure:"depositSecretKey" config:"depositSecretKey"  yaml:"depositSecretKey"`
+	WithdrawAgentCode string `json:"withdrawAgentCode" mapstructure:"withdrawAgentCode" config:"withdrawAgentCode"  yaml:"withdrawAgentCode"`
+	WithdrawSecretKey string `json:"withdrawSecretKey" mapstructure:"withdrawSecretKey" config:"withdrawSecretKey"  yaml:"withdrawSecretKey"`
 }
 
 // ----------pre order-------------------------
