@@ -8,7 +8,7 @@ import (
 func TestDeposit(t *testing.T) {
 	//构造client
 	cli := NewClient(nil,
-		OMPayInitParams{MerchantInfo{MERCHANT_ID,
+		&OMPayInitParams{MerchantInfo{MERCHANT_ID,
 			API_KEY,
 			SECRET_KEY,
 			WITHDRAW_AGENT_CODE,
@@ -28,10 +28,10 @@ func TestDeposit(t *testing.T) {
 
 func GenDepositRequestDemo() OMPayDepositReq {
 	return OMPayDepositReq{
-		SerialNo:          "11234",     //商户的单号  //1
-		Currency:          "VND",       //1
-		Amount:            "100000.00", //Return URL after the payment is done.
-		ClientAccountName: "你好",        //Client's Registered Full name in account (KYC)
+		SerialNo:          "789012",  //商户的单号  //1
+		Currency:          "THB",     //1
+		Amount:            "1000000", //Return URL after the payment is done.
+		ClientAccountName: "hello",   //Client's Registered Full name in account (KYC)
 	}
 
 }
