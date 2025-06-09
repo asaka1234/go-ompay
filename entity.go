@@ -1,7 +1,7 @@
 package go_ompay
 
 type OMPayInitParams struct {
-	MerchantInfo
+	MerchantInfo `yaml:",inline" mapstructure:",squash"`
 
 	DepositUrl           string `json:"depositUrl" mapstructure:"depositUrl" config:"depositUrl"  yaml:"depositUrl"`
 	DepositCallbackUrl   string `json:"depositCallbackUrl" mapstructure:"depositCallbackUrl" config:"depositCallbackUrl"  yaml:"depositCallbackUrl"`
