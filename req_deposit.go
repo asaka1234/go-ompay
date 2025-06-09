@@ -15,8 +15,8 @@ func (cli *Client) Deposit(req OMPayDepositReq) string {
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
 	params["merchantCode"] = cli.Params.MerchantId //1
-	params["returnUrl"] = cli.Params.DepositFeCallbackUrl
-	params["notifyUrl"] = cli.Params.DepositCallbackUrl //回调地址
+	params["returnUrl"] = cli.Params.DepositFeBackUrl
+	params["notifyUrl"] = cli.Params.DepositBackUrl //回调地址
 
 	//签名
 	signStr := utils.SignDepositWithAmount(req.SerialNo, req.Amount, cli.Params.DepositApiKey, cli.Params.DepositSecretKey)

@@ -3,12 +3,12 @@ package go_ompay
 type OMPayInitParams struct {
 	MerchantInfo `yaml:",inline" mapstructure:",squash"`
 
-	DepositUrl           string `json:"depositUrl" mapstructure:"depositUrl" config:"depositUrl"  yaml:"depositUrl"`
-	DepositCallbackUrl   string `json:"depositCallbackUrl" mapstructure:"depositCallbackUrl" config:"depositCallbackUrl"  yaml:"depositCallbackUrl"`
-	DepositFeCallbackUrl string `json:"depositFeCallbackUrl" mapstructure:"depositFeCallbackUrl" config:"depositFeCallbackUrl"  yaml:"depositFeCallbackUrl"`
+	DepositUrl       string `json:"depositUrl" mapstructure:"depositUrl" config:"depositUrl"  yaml:"depositUrl"`
+	DepositBackUrl   string `json:"depositBackUrl" mapstructure:"depositBackUrl" config:"depositBackUrl"  yaml:"depositBackUrl"`
+	DepositFeBackUrl string `json:"depositFeBackUrl" mapstructure:"depositFeBackUrl" config:"depositFeBackUrl"  yaml:"depositFeBackUrl"`
 
-	WithdrawUrl         string `json:"withdrawUrl" mapstructure:"withdrawUrl" config:"withdrawUrl"  yaml:"withdrawUrl"`
-	WithdrawCallbackUrl string `json:"withdrawCallbackUrl" mapstructure:"withdrawCallbackUrl" config:"withdrawCallbackUrl"  yaml:"withdrawCallbackUrl"`
+	WithdrawUrl     string `json:"withdrawUrl" mapstructure:"withdrawUrl" config:"withdrawUrl"  yaml:"withdrawUrl"`
+	WithdrawBackUrl string `json:"withdrawBackUrl" mapstructure:"withdrawBackUrl" config:"withdrawBackUrl"  yaml:"withdrawBackUrl"`
 }
 
 type MerchantInfo struct {
