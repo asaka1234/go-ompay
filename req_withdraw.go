@@ -29,6 +29,7 @@ func (cli *Client) Withdraw(req OMPayWithdrawalReq) (*OMPayWithdrawalResp, error
 		R().
 		SetFormData(utils.ConvertToStringMap(params)).
 		SetHeaders(getHeaders()).
+		SetDebug(cli.debugMode).
 		SetResult(&result).
 		SetError(&result).
 		Post(rawURL)

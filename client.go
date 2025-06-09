@@ -8,20 +8,26 @@ import (
 type Client struct {
 	Params OMPayInitParams
 
-	ryClient *resty.Client
-	logger   utils.Logger
+	ryClient  *resty.Client
+	debugMode bool
+	logger    utils.Logger
 }
 
 func NewClient(logger utils.Logger, params OMPayInitParams) *Client {
 	return &Client{
 		Params: params,
 
-		ryClient: resty.New(), //client实例
-		logger:   logger,
+		ryClient:  resty.New(), //client实例
+		debugMode: false,
+		logger:    logger,
 	}
 }
 
 // 方便依据currency来切换 (MYR, IDR/ / SGD/ THB/ VND)
 func (cli *Client) SetMerchantInfo(merchant MerchantInfo) {
 	cli.Params.MerchantInfo = merchant
+}
+
+func (cli *Client) SetDebugModel(debugMode bool) {
+	cli.debugMode = debugMode
 }
