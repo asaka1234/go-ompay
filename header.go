@@ -6,3 +6,10 @@ func getHeaders() map[string]string {
 		"Accept":       "application/x-www-form-urlencoded",
 	}
 }
+
+func getFPXHeaders() map[string]string {
+	return map[string]string{
+		"Content-Type": "application/json",
+		"Accept":       "application/json",
+	}
+}

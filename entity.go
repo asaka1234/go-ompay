@@ -3,9 +3,13 @@ package go_ompay
 type OMPayInitParams struct {
 	MerchantInfo `yaml:",inline" mapstructure:",squash"`
 
+	//银行转账地址
 	DepositUrl       string `json:"depositUrl" mapstructure:"depositUrl" config:"depositUrl"  yaml:"depositUrl"`
 	DepositBackUrl   string `json:"depositBackUrl" mapstructure:"depositBackUrl" config:"depositBackUrl"  yaml:"depositBackUrl"`
 	DepositFeBackUrl string `json:"depositFeBackUrl" mapstructure:"depositFeBackUrl" config:"depositFeBackUrl"  yaml:"depositFeBackUrl"`
+
+	//fpx/qrcode支付
+	FPXDepositUrl string `json:"fpxDepositUrl" mapstructure:"fpxDepositUrl" config:"fpxDepositUrl"  yaml:"fpxDepositUrl"`
 
 	WithdrawUrl     string `json:"withdrawUrl" mapstructure:"withdrawUrl" config:"withdrawUrl"  yaml:"withdrawUrl"`
 	WithdrawBackUrl string `json:"withdrawBackUrl" mapstructure:"withdrawBackUrl" config:"withdrawBackUrl"  yaml:"withdrawBackUrl"`
@@ -32,6 +36,26 @@ type OMPayDepositReq struct {
 	//ReturnUrl    string `json:"returnUrl"`    //前端回跳地址
 	//NotifyUrl    string `json:"notifyUrl"`    //非必填,回调通知接口
 	//Token        string `json:"token"`        //签名MD5(serialNo + {API KEY} + {Secret KEY} + amount)
+}
+
+type OMPayFPXDepositReq struct {
+	SerialNo string  `json:"serialNo" mapstructure:"serialNo"` //商户的唯一单号
+	Currency string  `json:"currency" mapstructure:"currency"` //1
+	Amount   string  `json:"amount" mapstructure:"amount"`     //Return URL after the payment is done.
+	PayType  *string `json:"payType" mapstructure:"payType"`   //Currency IDR Only. (IDR Default 1003), - 1003 (VA), - 1004 (QRIS)
+	//这几个让sdk来搞
+	//MerchantCode string `json:"merchantCode"` //商户id
+	//ReturnUrl    string `json:"returnUrl"`    //前端回跳地址
+	//NotifyUrl    string `json:"notifyUrl"`    //非必填,回调通知接口
+	//Token        string `json:"token"`        //签名MD5(serialNo + {API KEY} + {Secret KEY} + amount)
+}
+
+type OMPayFPXDepositResponse struct {
+	Success      bool   `json:"success" mapstructure:"success"`           //成功与否
+	Data         string `json:"data" mapstructure:"data"`                 //Return payment URL if success.
+	MerchantCode string `json:"merchantCode" mapstructure:"merchantCode"` //Unique ID for each merchant.
+	SerialNo     string `json:"serialNo" mapstructure:"serialNo"`         //Unique Transaction Id from request
+	Message      string `json:"message" mapstructure:"message"`           //Error message if not success.
 }
 
 // ------------------------------------------------------------

@@ -2,7 +2,8 @@
 ==============
 1. 充值: https://api.doitwallet.asia/Documents/DepositAPI.pdf
 2. 提现: https://api.doitwallet.asia/Documents/PayoutAPI.pdf
-3. 支持currency: MYR, IDR, SGD, THB, VND
+3. 二维码: https://api.doitwallet.asia/Documents/FPXAPI.pdf
+4. 支持currency: MYR, IDR, SGD, THB, VND
 
 
 

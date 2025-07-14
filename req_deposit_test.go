@@ -16,8 +16,10 @@ func TestDeposit(t *testing.T) {
 			DEPOSIT_URL,
 			DEPOSIT_CALLBACK_URL,
 			DEPOSIT_FE_CALLBACK_URL,
+			DEPOSIT_FPX_URL,
 			WITHDRAW_URL,
-			WITHDRAW_CALLBACK_URL})
+			WITHDRAW_CALLBACK_URL,
+		})
 
 	//获取拼凑的跳转地址
 	urlString := cli.Deposit(GenDepositRequestDemo())

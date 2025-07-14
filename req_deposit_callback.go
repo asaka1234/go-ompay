@@ -6,7 +6,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-// POST请求传过来的. 但是所有参数都在query里
+// banktransfer和fpx都是同一个回调
 // https://{your notify or callback url}?Info=Approved&MerchantCode=60-00000100-0000123&SerialNo=AA0123456&CurrencyCode=MYR&Amount=500.00&Status=1&Token=***
 func (cli *Client) DepositCallback(req OmPayDepositCallbackReq, processor func(OmPayDepositCallbackReq) error) error {
 	//验证签名
