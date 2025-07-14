@@ -10,7 +10,7 @@ import (
 // https://api.doitwallet.asia/Documents/PayoutAPI.pdf
 func (cli *Client) Withdraw(req OMPayWithdrawalReq) (*OMPayWithdrawalResp, error) {
 
-	rawURL := cli.Params.DepositUrl
+	rawURL := cli.Params.WithdrawUrl
 
 	var params map[string]interface{}
 	mapstructure.Decode(req, &params)
