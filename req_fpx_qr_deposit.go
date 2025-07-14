@@ -2,6 +2,7 @@ package go_ompay
 
 import (
 	"crypto/tls"
+	"fmt"
 	"github.com/asaka1234/go-ompay/utils"
 	"github.com/mitchellh/mapstructure"
 )
@@ -24,7 +25,7 @@ func (cli *Client) DepositFPXQR(req OMPayFPXDepositReq) (*OMPayFPXDepositRespons
 	//返回值会放到这里
 	var result OMPayFPXDepositResponse
 
-	_, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
+	resp, err := cli.ryClient.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true}).
 		SetCloseConnection(true).
 		R().
 		SetHeaders(getFPXHeaders()).
@@ -35,6 +36,16 @@ func (cli *Client) DepositFPXQR(req OMPayFPXDepositReq) (*OMPayFPXDepositRespons
 
 	if err != nil {
 		return nil, err
+	}
+
+	if resp.StatusCode() != 200 {
+		//反序列化错误会在此捕捉
+		return nil, fmt.Errorf("status code: %d", resp.StatusCode())
+	}
+
+	if resp.Error() != nil {
+		//反序列化错误会在此捕捉
+		return nil, fmt.Errorf("%v, body:%s", resp.Error(), resp.Body())
 	}
 
 	return &result, nil
