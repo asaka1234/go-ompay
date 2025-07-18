@@ -22,10 +22,12 @@ func TestWithdraw(t *testing.T) {
 			WITHDRAW_CALLBACK_URL})
 
 	//获取拼凑的跳转地址
-	resp, _ := cli.Withdraw(GenWithdrawRequestDemo())
-
-	fmt.Printf("resp:%+v\n", resp)
-
+	resp, err := cli.Withdraw(GenWithdrawRequestDemo())
+	if err != nil {
+		fmt.Printf("err1:%s\n", err.Error())
+	} else {
+		fmt.Printf("resp:%+v\n", resp)
+	}
 }
 
 func GenWithdrawRequestDemo() OMPayWithdrawalReq {
