@@ -7,7 +7,8 @@ import (
 
 func TestWithdraw(t *testing.T) {
 	//构造client
-	cli := NewClient(nil,
+	vlog := VLog{}
+	cli := NewClient(vlog,
 		&OMPayInitParams{MerchantInfo{MERCHANT_ID,
 			API_KEY,
 			SECRET_KEY,

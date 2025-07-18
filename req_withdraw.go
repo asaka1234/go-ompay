@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/asaka1234/go-ompay/utils"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -34,10 +35,21 @@ func (cli *Client) Withdraw(req OMPayWithdrawalReq) (*OMPayWithdrawalResp, error
 		SetError(&result).
 		Post(rawURL)
 
-	fmt.Printf("result: %s\n", string(resp1.Body()))
+	restLog, _ := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(utils.GetRestyLog(resp1))
+	cli.logger.Infof("PSPResty#ompay#withdraw->%+v", string(restLog))
 
 	if err != nil {
 		return nil, err
+	}
+
+	if resp1.StatusCode() != 200 {
+		//反序列化错误会在此捕捉
+		return nil, fmt.Errorf("status code: %d", resp1.StatusCode())
+	}
+
+	if resp1.Error() != nil {
+		//反序列化错误会在此捕捉
+		return nil, fmt.Errorf("%s", resp1.Error())
 	}
 
 	if result.HasError {

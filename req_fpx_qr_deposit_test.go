@@ -5,9 +5,26 @@ import (
 	"testing"
 )
 
+type VLog struct {
+}
+
+func (l VLog) Debugf(format string, args ...interface{}) {
+	fmt.Printf(format+"\n", args...)
+}
+func (l VLog) Infof(format string, args ...interface{}) {
+	fmt.Printf(format+"\n", args...)
+}
+func (l VLog) Warnf(format string, args ...interface{}) {
+	fmt.Printf(format+"\n", args...)
+}
+func (l VLog) Errorf(format string, args ...interface{}) {
+	fmt.Printf(format+"\n", args...)
+}
+
 func TestFPXDeposit(t *testing.T) {
 	//构造client
-	cli := NewClient(nil,
+	vlog := VLog{}
+	cli := NewClient(vlog,
 		&OMPayInitParams{MerchantInfo{MERCHANT_ID,
 			API_KEY,
 			SECRET_KEY,
@@ -35,7 +52,7 @@ func TestFPXDeposit(t *testing.T) {
 // VND 支持
 func GenDepositFPXRequestDemo() OMPayFPXDepositReq {
 	return OMPayFPXDepositReq{
-		SerialNo: "98905133224", //商户的单号
+		SerialNo: "989051323224", //商户的单号
 		Currency: "VND",
 		Amount:   "1000000",
 		//PayType:  "1004",

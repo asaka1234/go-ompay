@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/asaka1234/go-ompay/utils"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -33,6 +34,9 @@ func (cli *Client) DepositFPXQR(req OMPayFPXDepositReq) (*OMPayFPXDepositRespons
 		SetDebug(cli.debugMode).
 		SetResult(&result).
 		Post(rawURL)
+
+	restLog, _ := jsoniter.ConfigCompatibleWithStandardLibrary.Marshal(utils.GetRestyLog(resp))
+	cli.logger.Infof("PSPResty#ompay#deposit->%+v", string(restLog))
 
 	if err != nil {
 		return nil, err
