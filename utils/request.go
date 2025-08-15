@@ -7,10 +7,11 @@ import (
 )
 
 type RestyRequest struct {
-	Method  string      `json:"method"`
-	Url     string      `json:"url"`
-	Headers http.Header `json:"headers"`
-	Body    interface{} `json:"body"`
+	Method   string              `json:"method"`
+	Url      string              `json:"url"`
+	Headers  http.Header         `json:"headers"`
+	Body     interface{}         `json:"body"`
+	FormData map[string][]string `json:"formData"`
 }
 
 type RestyResponse struct {
@@ -19,6 +20,7 @@ type RestyResponse struct {
 	Headers    http.Header `json:"headers"`
 	Body       string      `json:"body"`
 	ReceivedAt time.Time   `json:"received_at"`
+	Rtt        int64       `json:"rtt"`
 }
 
 type RestyLog struct {
@@ -35,10 +37,11 @@ func GetRestyLog(resp *resty.Response) RestyLog {
 
 	return RestyLog{
 		Request: RestyRequest{
-			Method:  resp.Request.Method,
-			Url:     resp.Request.URL,
-			Headers: reqHeaders, //resp.Request.Header,
-			Body:    resp.Request.Body,
+			Method:   resp.Request.Method,
+			Url:      resp.Request.URL,
+			Headers:  reqHeaders, //resp.Request.Header,
+			Body:     resp.Request.Body,
+			FormData: resp.Request.FormData,
 			//"time":    resp.Request.Time,
 		},
 		Response: RestyResponse{
@@ -47,6 +50,7 @@ func GetRestyLog(resp *resty.Response) RestyLog {
 			Headers:    resp.Header(),
 			Body:       resp.String(),
 			ReceivedAt: resp.ReceivedAt(),
+			Rtt:        resp.Time().Milliseconds(),
 			//"time":        resp.Time(),
 		},
 	}

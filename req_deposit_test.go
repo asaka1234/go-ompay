@@ -2,12 +2,14 @@ package go_ompay
 
 import (
 	"fmt"
+	"github.com/spf13/cast"
 	"testing"
 )
 
 func TestDeposit(t *testing.T) {
 	//构造client
-	cli := NewClient(nil,
+	vLog := VLog{}
+	cli := NewClient(vLog,
 		&OMPayInitParams{MerchantInfo{MERCHANT_ID,
 			API_KEY,
 			SECRET_KEY,
@@ -22,9 +24,20 @@ func TestDeposit(t *testing.T) {
 		})
 
 	//获取拼凑的跳转地址
-	urlString := cli.Deposit(GenDepositRequestDemo())
+	//urlString := cli.Deposit(GenDepositRequestDemo())
 
-	fmt.Printf("resp:%+v\n", urlString)
+	//fmt.Printf("resp:%+v\n", urlString)
+
+	// fpx发请求给psp三方
+	respfpx, err := cli.DepositFPXQR(OMPayFPXDepositReq{
+		Currency: "MYR",
+		Amount:   cast.ToString(3000), //这里改为上游入金的流水号
+		SerialNo: "20253484848483",    //outNo
+	})
+	if err != nil {
+		fmt.Printf("respfpx err:%+v\n", err)
+	}
+	fmt.Printf("respfpx:%+v\n", respfpx)
 
 }
 
