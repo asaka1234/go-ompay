@@ -39,10 +39,12 @@ type OMPayDepositReq struct {
 }
 
 type OMPayFPXDepositReq struct {
-	SerialNo string  `json:"serialNo" mapstructure:"serialNo"` //商户的唯一单号
-	Currency string  `json:"currency" mapstructure:"currency"` //1
-	Amount   string  `json:"amount" mapstructure:"amount"`     //Return URL after the payment is done.
-	PayType  *string `json:"payType" mapstructure:"payType"`   //Currency IDR Only. (IDR Default 1003), - 1003 (VA), - 1004 (QRIS)
+	SerialNo          string  `json:"serialNo" mapstructure:"serialNo"`                   //商户的唯一单号
+	Currency          string  `json:"currency" mapstructure:"currency"`                   //1
+	Amount            string  `json:"amount" mapstructure:"amount"`                       //Return URL after the payment is done.
+	PayType           *string `json:"payType" mapstructure:"payType"`                     //Currency IDR Only. (IDR Default 1003), - 1003 (VA), - 1004 (QRIS)
+	ClientAccountName string  `json:"clientAccountName" mapstructure:"clientAccountName"` // Client's Registered Full name in account (KYC).
+	ClientId          string  `json:"clientId" mapstructure:"clientId"`                   // Client's User ID.
 	//这几个让sdk来搞
 	//MerchantCode string `json:"merchantCode"` //商户id
 	//ReturnUrl    string `json:"returnUrl"`    //前端回跳地址
