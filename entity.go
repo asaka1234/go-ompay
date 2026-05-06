@@ -65,28 +65,29 @@ type OMPayFPXDepositResponse struct {
 // psp是发了一个post请求过来, 如果处理好了就返回 success ,失败就返回fail
 // 样式: https://{your notify or callback url}?Info=Approved&MerchantCode=60-00000100-0000123&SerialNo=AA0123456&CurrencyCode=MYR&Amount=500.00&Status=1&Token=***
 type OmPayDepositCallbackReq struct {
-	Info         string  `json:"Info" mapstructure:"Info"` // Payment information. (E.g. Approved, Rejected)
-	MerchantCode string  `json:"MerchantCode" mapstructure:"MerchantCode"`
-	SerialNo     string  `json:"SerialNo" mapstructure:"SerialNo"` //商户的唯一单号
-	CurrencyCode string  `json:"CurrencyCode" mapstructure:"CurrencyCode"`
-	Amount       float64 `json:"Amount" mapstructure:"Amount"`
-	Status       int     `json:"Status" mapstructure:"Status"` //0 = Waiting for payment,1 = Payment Approved ,2 = Rejected
-	Token        string  `json:"Token" mapstructure:"Token"`   //MD5(serialNo + {API KEY} + {Secret KEY})
+	Info         string  `json:"Info" form:"Info" mapstructure:"Info"` // Payment information. (E.g. Approved, Rejected)
+	MerchantCode string  `json:"MerchantCode" form:"MerchantCode" mapstructure:"MerchantCode"`
+	SerialNo     string  `json:"SerialNo" form:"SerialNo" mapstructure:"SerialNo"` //商户的唯一单号
+	CurrencyCode string  `json:"CurrencyCode" form:"CurrencyCode" mapstructure:"CurrencyCode"`
+	Amount       float64 `json:"Amount" form:"Amount" mapstructure:"Amount"`
+	Status       int     `json:"Status" form:"Status" mapstructure:"Status"`                   //0 = Waiting for payment,1 = Payment Approved ,2 = Rejected
+	Token        string  `json:"Token" form:"Token" mapstructure:"Token"`                      //MD5(serialNo + {API KEY} + {Secret KEY})
+	ActualAmount float64 `json:"ActualAmount" form:"ActualAmount" mapstructure:"ActualAmount"` //实际支付金额
 }
 
 //=============================提现====================================
 
 type OMPayWithdrawalReq struct {
-	UserRef           string  `json:"UserRef" mapstructure:"UserRef"`                                         //感觉是唯一,可以是随机生成. Your reference Id for this request
-	TransactionId     string  `json:"TransactionId" mapstructure:"TransactionId"`                             //商户的订单唯一id
-	FullName          string  `json:"FullName,omitempty" mapstructure:"FullName,omitempty"`                   //Full name of the user of the bank. (Required except USDT)
-	AccountNo         string  `json:"AccountNo" mapstructure:"AccountNo"`                                     //Bank Account Number / USDT Address
-	BankCode          string  `json:"BankCode" mapstructure:"BankCode"`                                       //Bank Name / USDT Types (TRX, ETH)
-	BankRegister      string  `json:"BankRegister,omitempty" mapstructure:"BankRegister,omitempty"`           //Bank Branch
-	BankRegisterState string  `json:"BankRegisterState,omitempty" mapstructure:"BankRegisterState,omitempty"` //Bank Branch State
-	BankRegisterCity  string  `json:"BankRegisterCity,omitempty" mapstructure:"BankRegisterCity,omitempty"`   //Bank Branch City
-	Amount            float64 `json:"Amount" mapstructure:"Amount"`
-	Currency          string  `json:"Currency" mapstructure:"Currency"` //币种
+	UserRef           string  `json:"UserRef" form:"UserRef" mapstructure:"UserRef"`                                                   //感觉是唯一,可以是随机生成. Your reference Id for this request
+	TransactionId     string  `json:"TransactionId" form:"TransactionId" mapstructure:"TransactionId"`                                 //商户的订单唯一id
+	FullName          string  `json:"FullName" form:"FullName,omitempty" mapstructure:"FullName,omitempty"`                            //Full name of the user of the bank. (Required except USDT)
+	AccountNo         string  `json:"AccountNo" form:"AccountNo" mapstructure:"AccountNo"`                                             //Bank Account Number / USDT Address
+	BankCode          string  `json:"BankCode" form:"BankCode" mapstructure:"BankCode"`                                                //Bank Name / USDT Types (TRX, ETH)
+	BankRegister      string  `json:"BankRegister" form:"BankRegister,omitempty" mapstructure:"BankRegister,omitempty"`                //Bank Branch
+	BankRegisterState string  `json:"BankRegisterState" form:"BankRegisterState,omitempty" mapstructure:"BankRegisterState,omitempty"` //Bank Branch State
+	BankRegisterCity  string  `json:"BankRegisterCity" form:"BankRegisterCity,omitempty" mapstructure:"BankRegisterCity,omitempty"`    //Bank Branch City
+	Amount            float64 `json:"Amount" form:"Amount" mapstructure:"Amount"`
+	Currency          string  `json:"Currency" form:"Currency" mapstructure:"Currency"` //币种
 	//让sdk设置
 	//AgentCode   string `json:"AgentCode" mapstructure:"AgentCode"`                         //给merchant分配的
 	//CallbackURL string `json:"CallbackURL,omitempty" mapstructure:"CallbackURL,omitempty"` //回调地址
