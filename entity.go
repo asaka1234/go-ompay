@@ -27,10 +27,12 @@ type MerchantInfo struct {
 //没有psp三方的订单号
 
 type OMPayDepositReq struct {
-	SerialNo          string `json:"serialNo" mapstructure:"serialNo"`                   //商户的唯一单号
-	Currency          string `json:"currency" mapstructure:"currency"`                   //1
-	Amount            string `json:"amount" mapstructure:"amount"`                       //Return URL after the payment is done.
-	ClientAccountName string `json:"ClientAccountName" mapstructure:"ClientAccountName"` //Client's Registered Full name in account (KYC)
+	SerialNo          string  `json:"serialNo" mapstructure:"serialNo"`                   //商户的唯一单号
+	Currency          string  `json:"currency" mapstructure:"currency"`                   //货币代码: MYR/IDR/PHP/THB/VND/SGD/USD/USDT/HKD/INR/RMB
+	Amount            string  `json:"amount" mapstructure:"amount"`                       //支付金额
+	ClientAccountName string  `json:"ClientAccountName" mapstructure:"ClientAccountName"` //Client's Registered Full name in account (KYC)
+	ClientId          string  `json:"ClientId" mapstructure:"ClientId"`                   //Client's User ID. PHP币种必填. eg. "mohdk2912@gmail.com"
+	ReferenceId       *string `json:"ReferenceId,omitempty" mapstructure:"ReferenceId"`   //Additional Reference ID (可选)
 	//这几个让sdk来搞
 	//MerchantCode string `json:"merchantCode"` //商户id
 	//ReturnUrl    string `json:"returnUrl"`    //前端回跳地址
@@ -40,11 +42,13 @@ type OMPayDepositReq struct {
 
 type OMPayFPXDepositReq struct {
 	SerialNo          string  `json:"serialNo" mapstructure:"serialNo"`                   //商户的唯一单号
-	Currency          string  `json:"currency" mapstructure:"currency"`                   //1
-	Amount            string  `json:"amount" mapstructure:"amount"`                       //Return URL after the payment is done.
+	Currency          string  `json:"currency" mapstructure:"currency"`                   //货币代码: MYR/IDR/PHP/VND
+	Amount            string  `json:"amount" mapstructure:"amount"`                       //支付金额
 	PayType           *string `json:"payType" mapstructure:"payType"`                     //Currency IDR Only. (IDR Default 1003), - 1003 (VA), - 1004 (QRIS)
 	ClientAccountName string  `json:"clientAccountName" mapstructure:"clientAccountName"` // Client's Registered Full name in account (KYC).
-	ClientId          string  `json:"clientId" mapstructure:"clientId"`                   // Client's User ID.
+	ClientId          string  `json:"clientId" mapstructure:"clientId"`                   // Client's User ID. eg. "mohdk2912@gmail.com"
+	ReferenceId       *string `json:"referenceId,omitempty" mapstructure:"referenceId"`   // Additional Reference ID (可选)
+	BankCode          *string `json:"bankCode,omitempty" mapstructure:"bankCode"`         // Direct select bank. Currency MYR only. (可选)
 	//这几个让sdk来搞
 	//MerchantCode string `json:"merchantCode"` //商户id
 	//ReturnUrl    string `json:"returnUrl"`    //前端回跳地址
@@ -87,7 +91,9 @@ type OMPayWithdrawalReq struct {
 	BankRegisterState string  `json:"BankRegisterState" form:"BankRegisterState,omitempty" mapstructure:"BankRegisterState,omitempty"` //Bank Branch State
 	BankRegisterCity  string  `json:"BankRegisterCity" form:"BankRegisterCity,omitempty" mapstructure:"BankRegisterCity,omitempty"`    //Bank Branch City
 	Amount            float64 `json:"Amount" form:"Amount" mapstructure:"Amount"`
-	Currency          string  `json:"Currency" form:"Currency" mapstructure:"Currency"` //币种
+	Currency          string  `json:"Currency" form:"Currency" mapstructure:"Currency"`                  //币种: USD/MYR/CNY/PHP/THB/VND/IDR/JPY/KRW/HKD/EUR/SGD/USDT
+	Remark            string  `json:"Remark" form:"Remark,omitempty" mapstructure:"Remark,omitempty"`    //备注 (可选)
+	Channel           string  `json:"Channel" form:"Channel,omitempty" mapstructure:"Channel,omitempty"` //1 = Normal, 2 = Express (可选)
 	//让sdk设置
 	//AgentCode   string `json:"AgentCode" mapstructure:"AgentCode"`                         //给merchant分配的
 	//CallbackURL string `json:"CallbackURL,omitempty" mapstructure:"CallbackURL,omitempty"` //回调地址
